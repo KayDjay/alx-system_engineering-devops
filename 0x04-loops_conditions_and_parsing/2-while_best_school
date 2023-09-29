@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# This script display Best School using while loop
+
+count=10
+while [ $count -gt 0 ] 
+do
+	echo "Best School"
+	((count--))
+done 
