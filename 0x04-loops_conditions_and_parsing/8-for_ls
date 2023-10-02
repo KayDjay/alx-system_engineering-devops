@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Script that display content of the current directory
+
+for file in *
+do
+	part_name=$(echo "$file" | cut -d '-' -f 2-)
+	echo "$part_name"
+done
