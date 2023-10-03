@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Script to display the content of to the /etc/passwd file
+
+file_name="/etc/passwd"
+IFS=':'
+if [ -f "$file_name" ]; then
+
+	fields=('username' 'password' 'user_id' 'group_id' 'user_id_info' 'home_dir' 'command')
+  while read -r "${fields[@]}"; do
+    echo "The user ${fields[0]} is part of the ${fields[3]} gang, lives in ${fields[5]} and \
+rides ${fields[6]}. ${fields[2]}'s place is protected by the passcode ${fields[1]}, more \
+info about the user here: ${fields[4]}"
+  done < "$file_name"
+fi
