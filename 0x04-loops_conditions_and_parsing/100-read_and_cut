@@ -1,10 +1,15 @@
-#i!/usr/bin/env bash
+#!/usr/bin/env bash
 # Script to display the content of to the /etc/passwd file
-passwd_file="/etc/passwd"
 
-while IFS=: read -r username _ userid _ _ home _; do
+file_name="/etc/passwd"
+IFS=':'
 
-    echo "Username: $username"
-    echo "User ID: $userid"
-    echo "Home Directory: $home"
-done < "$passwd_file"
+if [ -f "$file_name" ]; then
+  fields=('username' 'password' 'user_id' 'group_id' 'user_id_info' 'home_dir' 'command')
+  
+  while read -r line; do
+    IFS=':' read -r -a field <<< "$line"
+
+    echo "${field[0]}:${field[2]}:${field[5]}"
+  done < "$file_name"
+fi
