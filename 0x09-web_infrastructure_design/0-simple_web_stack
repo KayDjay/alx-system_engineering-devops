@@ -1,0 +1,18 @@
+https://drive.google.com/file/d/16rbLlcJlvT79cFn4FvtxH1z2J_EFCm21/view?usp=drive_link
+
+Server is a computer device that provide a service to another computer program and its user or a clients.
+
+The role of Domain name is to provide unique, easy to remember IP address that can easily access website
+
+A domain name serves as a human-readable address that corresponds to the numeric IP address of a server where a website or service is hosted. 
+ The "www" in a domain name like "www.foobar.com" is a subdomain. 
+ The web server's role is to handle incoming HTTP requests from clients (usually web browsers) and deliver the appropriate responses.
+ 
+ The database stores and manages the structured data required by the web application.
+
+ The communication between the server and the user's computer is facilitated by the HTTP protocol. When a user requests a website, their browser sends an HTTP request to the web server. 
+
+Issues about the Infrastructure
+1. SPOF, There is no measure put in place for to prevent Single Point Of Failure (SPOF)
+2. There will be downtime when maintenance needed because theres is just one server
+3. The infrastructure Cannot scale if too much incoming traffic

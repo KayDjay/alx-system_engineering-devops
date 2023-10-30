@@ -1,0 +1,12 @@
+https://drive.google.com/file/d/1jP1jkMoaFjlX6ELOYX2o2miUcG9NQFvd/view?usp=drive_link
+
+Specifics about this infrastructure:
+A second server is added for downtime check when maintainace is ongoing
+A load balancer is added for traffic distribution
+The load balance uses Weighted Least Connection, Servers are weighted, and requests are directed to the server with the fewest connections.
+Active-Passive: If the active server fails, the passive server immediately takes over until the active one recovers.
+
+Issues about the Infrastructure:
+There is measure for SPOF with the addition of server 02
+No firewall and no secure socket layer certification
+No monitoring to check for system health status
