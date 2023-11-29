@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# redirecting to another page
+
+# update server
+sudo apt-get update
+
+#install nginx
+sudo apt-get -y install nginx
+
+#allow firewall
+ufw allow 'Nginx HTTP'
+
+# on GET request
+echo 'Hello World!' > /var/www/html/index.html-debian.html
+
+# Server configuration
+sed -i '/listen 80 default_server;/a rewrite ^/redirect_me https://www.google.com;' /etc/nginx/sites-available/default
+
+# Create a symbolic link to enable the server block
+sudo ln -s /etc/nginx/sites-available/custom_404 /etc/nginx/sites-enabled/
+
+# Test Nginx configuration for syntax errors
+sudo nginx -t
+
+#Reload the server
+sudo system nginx reload

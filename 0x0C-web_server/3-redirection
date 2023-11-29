@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# installing nginx webserver serve on port 80
+# redirecting to another page
 
 # update server
 sudo apt-get update
@@ -13,5 +13,8 @@ ufw allow 'Nginx HTTP'
 # on GET request
 echo 'Hello World!' > /var/www/html/index.html-debian.html
 
-#start server
-sudo system nginx start
+# Server configuration
+sed -i '/listen 80 default_server;/a rewrite ^/redirect_me https://www.google.com;' /etc/nginx/sites-available/default
+
+#Restart the server
+sudo system nginx restart
