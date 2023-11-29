@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Get Apache service to run on a container
+# Return a page with Hello Hoberton
+# When querying from the root
+sudo service apache2 start
