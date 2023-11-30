@@ -7,14 +7,18 @@ sudo apt-get update
 #install nginx
 sudo apt-get -y install nginx
 
-#allow firewall
-ufw allow 'Nginx HTTP'
-
-# on GET request
-echo 'Hello World!' > /var/www/html/index.html-debian.html
+# To create a custom 404 HTML page
+echo "Ceci n'est pas une page" | sudo tee /usr/share/nginx/html/custom_404.html > /dev/null
 
 # Server configuration
-sed -i '/listen 80 default_server;/a rewrite ^/redirect_me https://www.google.com;' /etc/nginx/sites-available/default
+sudo printf "server {
+	listen 80 default_server;
+	server_name _;
+    error_page 404 /custom_404.html;
+    location = /custom_404.html {
+        root /usr/share/nginx/html;
+    }
+}" | sudo tee /etc/nginx/sites-available/custom_404 > /dev/null
 
 # Create a symbolic link to enable the server block
 sudo ln -s /etc/nginx/sites-available/custom_404 /etc/nginx/sites-enabled/
@@ -23,4 +27,4 @@ sudo ln -s /etc/nginx/sites-available/custom_404 /etc/nginx/sites-enabled/
 sudo nginx -t
 
 #Reload the server
-sudo system nginx reload
+sudo service nginx reload
