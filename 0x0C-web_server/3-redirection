@@ -7,23 +7,14 @@ sudo apt-get update
 #install nginx
 sudo apt-get -y install nginx
 
+# Allow incoming HTTP
+sudo ufw allow 'Nginx HTTP'
+
 # on GET request
 echo 'Hello World!' | sudo tee /var/www/html/index.html
 
-hostname=$(hostname)
-
 # Server configuration
-sudo printf "server {
-	listen 8;
-        listen [::]:80 default_server;
-        add_header X-Served-By $hostname;
-        root /var/www/html;
-        index index.html index.html index.htm index.nginx-debian.html;
-
-        location /redirect_me {
-                return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-        }
-}" > /etc/nginx/sites-available/default
+sudo sed -i '/listen 80 default_server/a rewrite ^/redirect_me https://www.youtube.com/ permanent;' /etc/nginx/sites-available/default
 
 #Restart the server
 sudo service nginx restart
