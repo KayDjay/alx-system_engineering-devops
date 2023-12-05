@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Setting haproxy load balancer
+
+# Update before installing
+sudo apt-get update
+
+#install haproxy
+sudo apt-get -y install haproxy
+
+# HAProxy Configuration
+haproxy_config=$(cat <<EOF
+defaults
+    log global
+    mode http
+    option httplog
+    option dontlognull
+    timeout connect 5000
+    timeout client 50000
+    timeout server 50000
+
+frontend haproxynode
+    bind *:80
+    default_backend myservers
+
+backend myservers
+    balance roundrobin
+    server 240206-web-01 54.160.17.16:80 check
+    server 240206-web-02 52.157.86.4:80 check
+EOF
+)
+
+# Update HAProxy Configuration File
+echo "$haproxy_config" | sudo tee /etc/haproxy/haproxy.cfg
+
+# Restart HAProxy service
+sudo service haproxy restart

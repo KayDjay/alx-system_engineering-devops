@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Configure Nginx so that its HTTP response contains a custom header
+
+# Update before install
+sudo apt-get update
+
+#Install nginx
+sudo apt-get install -y nginx
+
+# GET request
+echo 'Hello World!' | sudo tee /var/www/html/index.html
+
+# on Error
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html > /dev/null
+
+# Get the hostname of the machine
+hostname=$(hostname)
+
+# configure server
+cat <<EOF | sudo /etc/nginx/sites-available/default > /dev/null
+server {
+	listen 80;
+	listen [::]:80 default_server;
+	add_header X-Served-By $hostname;
+	root /var/www/html;
+	index index.html index.html index.htm index.nginx-debian.html;
+
+	location /redirect_me {
+		return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+	}
+
+	error_page 404 /404.html;
+	location = /404.html {
+		root /var/www/html/;
+		internal;
+	}
+}
+EOF
+
+# Restart Nginx server
+sudo service nginx restart
