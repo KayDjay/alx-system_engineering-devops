@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# Setting haproxy load balancer
+# To install and configure HAproxy load balancer
 
-# Update before installing
+# To update before installing
 sudo apt-get update
 
-#install haproxy
+# To install haproxy
 sudo apt-get -y install haproxy
 
-# HAProxy Configuration
+# To configure HAProxy
 haproxy_config=$(cat <<EOF
 defaults
     log global
@@ -29,7 +29,7 @@ backend myservers
 EOF
 )
 
-# Update HAProxy Configuration File
+# To update HAProxy Configuration File
 echo "$haproxy_config" | sudo tee /etc/haproxy/haproxy.cfg
 
 # Restart HAProxy service
