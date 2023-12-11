@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# debugging_nginx_port_80
+
+sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+# Restartd nginx
+sudo service nginx restart
