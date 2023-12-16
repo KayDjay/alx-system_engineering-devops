@@ -1,41 +1,27 @@
 #!/usr/bin/env bash
-# To configure Nginx so that its HTTP response contains a custom header
+# Configure Nginx so that its HTTP response contains a custom header
 
-# Update before install
-sudo apt-get update
+# sudo apt-get update
+# sudo apt-get install -y nginx
 
-# To install nginx
-sudo apt-get install -y nginx
+file_path="/etc/nginx/sites-enabled/default"
 
-# GET request
-echo 'Hello World!' | sudo tee /var/www/html/index.html
+name=$hostname
 
-# Error page
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html > /dev/null
+line_to_append="
+        add_header X-Served-By \$hostname;"
 
-# Get the machine hostname
-hostname=$(hostname)
+pattern="location / {"
 
-# To configure server
-cat <<EOF | sudo /etc/nginx/sites-available/default > /dev/null
-server {
-	listen 80;
-	listen [::]:80 default_server;
-	add_header X-Served-By $hostname;
-	root /var/www/html;
-	index index.html index.html index.htm index.nginx-debian.html;
+appended=false
 
-	location /redirect_me {
-		return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-	}
+sudo awk -v pattern="$pattern" -v line="$line_to_append" -v appended="$appended" '
+    $0 ~ pattern && !appended {
+        print $0 RS line
+        appended=true
+        next
+    }
+    1
+' "$file_path" > tmpfile && cat tmpfile > "$file_path" && rm tmpfile
 
-	error_page 404 /404.html;
-	location = /404.html {
-		root /var/www/html/;
-		internal;
-	}
-}
-EOF
-
-# Restart Nginx server
 sudo service nginx restart
