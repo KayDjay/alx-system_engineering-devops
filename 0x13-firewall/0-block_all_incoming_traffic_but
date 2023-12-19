@@ -2,13 +2,11 @@
 # bash script that configure ufw
 
 #install ufw
-sudo apt-get update -y
-sudo apt-get install ufw -y
-sudo ufw status
+sudo apt-get -y update
+sudo apt-get -y install ufw
 
 #traffic
 sudo ufw default deny incoming
-sudo ufw default allow outgoing
 
 #allow hosts
 sudo ufw allow 22/tcp
