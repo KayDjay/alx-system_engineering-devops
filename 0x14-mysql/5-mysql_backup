@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Check if the password argument is provided
+if [ -z "$1" ]; then
+  exit
+fi
+
+# MySQL dump file name
+dump_file="backup.sql"
+
+# Archive file name format: day-month-year.tar.gz
+archive_file="$(date +'%d-%m-%Y').tar.gz"
+
+# MySQL root user password
+mysql_password="$1"
+
+# MySQL dump command
+mysqldump -u root -p"${mysql_password}" --all-databases > "${dump_file}"
+
+# Create a tar.gz archive
+tar -czvf "${archive_file}" "${dump_file}"
