@@ -19,9 +19,12 @@ if __name__ == '__main__':
     done_tasks = []
 
     for task in tasks:
-        if task.get("completed") is True:
+        if task.get('completed'):
+            done_tasks.append(task)
             done += 1
-            done_tasks.append(task.get("title"))
-    print(f"Employee {employee_Name} is done with tasks({done}/{len(tasks)}):")
-    for i in done_tasks:
-        print("\t ", i)
+
+    print("Employee {} is done with tasks({}/{}):"
+          .format(employee_Name, done, len(tasks)))
+
+    for task in done_tasks:
+        print("\t {}".format(task.get('title')))
