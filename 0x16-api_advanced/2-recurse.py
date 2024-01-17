@@ -1,5 +1,8 @@
 import requests
 
+""" This is a function that queries Reddit API and return a list containing the titles of all hot articles for a given subreddit. If no results are found for the given subreddit, the function should return a list containing the titles of all hot articles for a given subreddit
+"""
+
 def recurse(subreddit, hot_list=[]):
     url = f"https://www.reddit.com/r/{subreddit}/hot.json"
     headers = {"User-Agent": "Kaydee"}
