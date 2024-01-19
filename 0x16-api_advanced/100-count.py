@@ -9,33 +9,38 @@ import requests
 def count_words(subreddit, word_list, after=None, count_dict={}):
     """ This function count API words """
     if after is None:
-        url = f"https://www.reddit.com/r/{subreddit}/hot.json"
+        url = 'https://www.reddit.com/r/{}/hot.json'.\
+            format(subreddit)
     else:
-        url = f"https://www.reddit.com/r/{subreddit}/hot.json?after={after}"
+        url = 'https://www.reddit.com/r/{}/hot.json?after={}'.\
+            format(subreddit, after)
 
-    headers = {"User-Agent": "Kaydee"}
-    response = requests.get(url, headers=headers, allow_redirects=False)
+    headers = {'User-Agent': 'Kaydee'}
+    response = requests.get(url, headers=headers,
+                            allow_redirects=False)
 
     if response.status_code == 200:
-        data = response.json()
-        posts = data["data"]["children"]
+        data = response.json().get('data')
+        after = data.get('after')
+        children = data.get('children')
 
-        for post in posts:
-            title = post["data"]["title"].lower()
+        for child in children:
+            title = child.get('data').get('title').lower()
             for word in word_list:
-                if word.lower() in title:
-                    if word.lower() in count_dict:
-                        count_dict[word.lower()] += 1
+                count = title.count(word.lower())
+                if count > 0:
+                    if word in count_dict:
+                        count_dict[word] += count
                     else:
-                        count_dict[word.lower()] = 1
+                        count_dict[word] = count
 
-        after = data["data"]["after"]
-
-    if after is not None:
-        count_words(subreddit, word_list, after, count_dict)
-    else:
-        sorted_counts = sorted(count_dict.items(), key=lambda x: (-x[1], x[0]))
-        for word, count in sorted_counts:
-            print(f"{word}: {count}")
+        if after is not None:
+            count_words(subreddit, word_list, after,
+                        count_dict)
         else:
-            print("Invalid subreddit or no posts match.")
+            sorted_counts = sorted(count_dict.items(),
+                                   key=lambda x: (-x[1], x[0]))
+            for word, count in sorted_counts:
+                print('{}: {}'.format(word, count))
+    else:
+        return    
