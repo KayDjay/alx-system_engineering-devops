@@ -1,5 +1,5 @@
 [Unit]
-Description=Gunicorn instance to serve airbnb
+Description=Gunicorn instance to serve AirBnB clone - Web dynamic
 After=network.target api.service
 
 [Service]
@@ -13,4 +13,3 @@ StandardError=file:/tmp/airbnb-error.log
 
 [Install]
 WantedBy=multi-user.target
-r
